@@ -10,7 +10,7 @@ Each players has 3 life bars and loses 1 if got hit. This is a competitive game 
 ## Component Parts
 
 The program is written with P5js.
-The concept of the code is to control KEY IS PRESSED for player movement and shot fired. When the missile colide with the players, the system reads it as a hit; thereby minus health bars of the player. To contruct the policy of missiles, IF statement are used repeatly for successful hits and misses.
+The concept of the code is to control KEY IS PRESSED for player movement and shot fired. When the missile collide with the players, the system reads it as a hit; thereby minus health bars of the player. To contruct the policy of missiles, IF statement are used repeatly for successful hits and misses.
 
 ## Timeline
 
