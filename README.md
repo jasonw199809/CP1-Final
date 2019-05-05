@@ -27,7 +27,8 @@ There was also a lot of bugs to fix while user testing.
 
 ## Completed Work
 
-See Code
+See Code. Sound may not work if you paste the code in pj5s.
+Access the game here https://editor.p5js.org/jasonw199809/sketches/1U4-xYfW0
 
 ## References and links
 
