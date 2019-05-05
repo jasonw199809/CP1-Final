@@ -1,6 +1,6 @@
 # CP1 Final: Rocket Shooting Game
 
-It is a game that requires 2 active players. Each player has unlimited amount of bullet. They shoot at each other untill the last man down.
+Rocket Shooting Game a game that requires 2 active players. Each player has unlimited amount of bullet. They shoot at each other untill the last man down.
 
 ## Summary
 This game needs 2 active players. Each player has unlimited amount of bullet. The right user moves his/her players with UP and DOWN. Fires with SPACE (Bullet) and ENTER (Missile)The left user moves his/her players with A and Z. Fires with SHIFT (Bullet) and X (Missile).They shoot at each other untill the last man down.
