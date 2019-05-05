@@ -1,0 +1,308 @@
+var song;
+var punch;
+function preload() {
+  song = loadSound("Explode.mp3");
+  punch = loadSound("Punch.mp3");
+}
+var r = 255
+var r2 = 1
+var b = 255
+var leftLife = 3;
+var rightLife = 3;
+// lifebar
+var lifebarL = {
+  y1: 50,
+  y2: 50,
+  y3: 50,
+}
+var lifebarR = {
+  y1: 50,
+  y2: 50,
+  y3: 50,
+}
+// The ball, or puck
+var ball = {
+  x: 580,
+  y: 230,
+  size: 10,
+  fired: 0,
+}
+
+var ball2 = {
+  x: 20,
+  y: 230,
+  size: 10,
+  fired: 0
+}
+//BIG MISSILE
+// The ball, or puck
+var BIG = {
+  x: 600,
+  y: 230,
+  size: 10,
+  fired: 0,
+}
+
+var BIG2 = {
+  x: 0,
+  y: 230,
+  size: 10,
+  fired: 0
+}
+
+// Players
+var leftY = 200;
+var rightY = 200;
+var playerWidth = 10;
+var playerHeight = 40;
+var playerSpeed = 10;
+
+var stop = false
+
+function setup() {
+  createCanvas(600, 400);
+}
+
+function draw() {
+  background(220);
+
+if (stop == true){
+  noLoop();
+}
+  // Draw the board
+  line(width / 2, 0, width / 2, height);
+ // line(250, 150, 280, 200);
+  noFill()
+  // Draw the players
+  rectMode(CORNER);
+  stroke(0);
+  fill(231, 41, 57)
+  rect(0, leftY, playerWidth, playerHeight);
+  fill(17, 50, 200)
+  rect(width - playerWidth - 1, rightY, playerWidth, playerHeight);
+  // Draw Life Points
+    noStroke()
+  text("Life:" + rightLife, 420, 30); //Right Plyaer
+  text("Life:" + leftLife, 120, 30); // Left PLayer
+  //Draw Life Bars
+  fill(70, 255, 150)
+
+  ellipse(120, lifebarL.y1, 16, 16);
+  ellipse(145, lifebarL.y2, 16, 16);
+  ellipse(170, lifebarL.y3, 16, 16);
+  
+  ellipse(420, lifebarR.y1, 16, 16);
+  ellipse(445, lifebarR.y2, 16, 16);
+  ellipse(470, lifebarR.y3, 16, 16);
+  
+  // Draw the BIG MISSILES
+  rectMode(CENTER);
+  r = r -1.5
+  if (r < 170){
+  r = 255
+  }
+  fill(r, 90, 0)
+  ellipse(BIG.x, BIG.y, 50, 30) //big
+  rectMode(CENTER);
+  fill(r2, 0, b)
+  r2 = r2 +5
+  if (r2 > 255){
+  r2 = 1
+  }
+  b = b -1.5
+  if (b < 150){
+  b = 255
+  }
+  ellipse(BIG2.x, BIG2.y, 50, 30) //BIG2
+  stroke(0);
+  
+  // Draw the balls
+  rectMode(CENTER);
+  fill(255, 255, 255)
+  ellipse(ball.x, ball.y, 20, 20) //ball
+  rectMode(CENTER);
+  ellipse(ball2.x, ball2.y, 20, 20) //ball2
+  stroke(0);
+  
+ 
+  
+  //shoot the ball, press space
+  if (keyIsDown(32)) { //Right Fire Ball
+    ball.fired = 1
+  }
+  
+   if (keyIsDown(ENTER)) { //Right Fire BIG
+    BIG.fired = 1
+  }
+
+  if (ball.fired == 1) {
+    ball.x = ball.x - 15
+  } else {
+    ball.y = rightY + 20
+  }
+  
+  if (BIG.fired == 1) {
+    BIG.x = BIG.x - 20
+  } else {
+    BIG.y = rightY + 20
+  }
+  //Left Fire Ball
+  if (keyIsDown(SHIFT)) {
+    ball2.fired = 1
+  }
+
+  if (keyIsDown(88)) { //Right Left BIG
+    BIG2.fired = 1
+  }
+  
+  if (ball2.fired == 1) {
+    ball2.x = ball2.x + 15
+  } else {
+    ball2.y = leftY + 20
+  }
+ 
+  if (BIG2.fired == 1) {
+    BIG2.x = BIG2.x + 20
+  } else {
+    BIG2.y = leftY + 20
+  }
+  
+  // Get user input
+  if (keyIsDown(UP_ARROW)) {
+    rightY -= playerSpeed;
+  }
+  if (keyIsDown(DOWN_ARROW)) {
+    rightY += playerSpeed;
+  }
+  if (keyIsDown(65)) { // 65 is "A"
+    leftY -= playerSpeed;
+  }
+  if (keyIsDown(90)) { // 90 is "Z"
+    leftY += playerSpeed;
+  }
+
+  // Ensure the paddle doesn't leave the screen
+  if (leftY < 0) {
+    leftY = 0;
+  }
+  if (leftY > height - playerHeight) {
+    leftY = height - playerHeight;
+  }
+  if (rightY < 0) {
+    rightY = 0;
+  }
+  if (rightY > height - playerHeight) {
+    rightY = height - playerHeight;
+  }
+
+  //ball 1 hits
+  if (ball.x <= 0 && ball.y >= leftY && ball.y <= leftY + playerHeight) {
+    punch.play();
+    leftLife -= 1
+    ball.fired = 0
+    ball.x = 580
+  }
+  if (BIG.x <= 10 && BIG.x>= -10 && BIG.y >= leftY && BIG.y <= leftY + playerHeight) {
+    punch.play();
+    leftLife -= 1
+    BIG.fired = 0
+    BIG.x = 600
+  }
+
+  //ball 1 misses
+  if (ball.x < -15) {
+    ball.fired = 0
+    ball.x = 580
+  }
+  if (BIG.x < -5000) {  //BIG MISSES
+    BIG.fired = 0
+    BIG.x = 600
+  }
+  //Right Dies
+if (rightLife == 0) {
+  song.play(); 
+  fill(0, 168, 107); //green
+    text("Victory", 110, 200); //text
+    fill(255, 0, 0, 100);
+    rect(900, 0, 1200, 800)
+    fill(0, 0, 0);
+    text("Defeat", 420, 200); //text
+    stop = true;
+}
+  //ball 2 hits
+  if (ball2.x >= 610 && ball2.y >= rightY && ball2.y <= rightY + playerHeight) {
+    punch.play();
+    rightLife -= 1
+    ball2.fired = 0
+    ball2.x = 20
+  }
+  if (BIG2.x >= 590 && BIG2.x <= 610 && BIG2.y >= rightY && BIG2.y <= rightY + playerHeight) {
+    punch.play();
+    rightLife -= 1
+    BIG2.fired = 0
+    BIG2.x = 0
+  }
+
+//ball 2 misses
+  if (ball2.x > 610) {
+    ball2.fired = 0
+    ball2.x = 20
+  }
+  
+  if (BIG2.x > 5600) {
+    BIG2.fired = 0
+    BIG2.x = 0
+  }
+//Minus Lifebar
+  if (leftLife == 2) {
+    lifebarL.y3 = - 50
+    fill (249,149,42);
+    ellipse(145, lifebarL.y2, 16, 16);
+    ellipse(120, lifebarL.y1, 16, 16); 
+  }
+  if (leftLife == 1) {
+    lifebarL.y2 = - 50
+    fill (255, 0, 0)
+    ellipse(120, lifebarL.y1, 16, 16);
+  }
+  if (leftLife == 0) {
+    lifebarL.y1 = - 50
+  }
+//Minus right Lifebar
+  if (rightLife == 2) {
+    lifebarR.y3 = - 50
+    fill (249,149,42); 
+    ellipse(445, lifebarR.y2, 16, 16);
+    ellipse(420, lifebarR.y1, 16, 16);
+  }
+  if (rightLife == 1) {
+    lifebarR.y2 = - 50
+  fill (255, 0, 0)
+  ellipse(420, lifebarR.y1, 16, 16);
+  }
+  if (rightLife == 0) {
+    lifebarR.y1 = - 50
+    }
+  
+
+  //Left Dies
+if (leftLife == 0) {
+  song.play();
+  fill(0, 168, 107); //green
+    text("Victory", 420, 200); //text
+    fill(255, 0, 0, 100);
+    rect(0, 0, 600, 800)
+    fill(0, 0, 0);
+    text("Defeat", 110, 200); //text
+    stop = true;
+  //noLoop();
+}
+
+  textSize(20);
+
+  // Check if puck is hitting a paddle
+  //if (puck.x < playerWidth && puck.y > leftY && puck.y < leftY + playerHeight) {
+  // puck.vx *= -1;
+  //if (puck.x > width - playerWidth && puck.y > rightY && puck.y < rightY + playerHeight) {
+  //puck.vx *= -1;
+}
